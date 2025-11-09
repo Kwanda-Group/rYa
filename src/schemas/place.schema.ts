@@ -1,16 +1,34 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { Restaurant } from './Admin.schema';
+
+
+export type PlaceDocument = Place & Document;
+
+export enum PlaceType {
+  TABLE = 'table',
+  ROOM = 'room',
+}
 
 @Schema({ timestamps: true })
-export class Table extends Document {
+export class Place extends Document {
+  @Prop({
+    type: Types.ObjectId,
+    ref: 'Company',
+  })
+  restaurantId?: Types.ObjectId; // optional for hotel rooms
 
   @Prop({
     type: Types.ObjectId,
-    required: true,
-    ref: Restaurant.name,
+    ref: 'Hotel',
   })
-  restaurantId: Types.ObjectId;
+  hotelId?: Types.ObjectId; // optional for tables
+
+  @Prop({
+    type: String,
+    required: true,
+    enum: PlaceType,
+  })
+  type: PlaceType;
 
   @Prop({
     type: Number,
@@ -19,7 +37,6 @@ export class Table extends Document {
   })
   number: number;
 
-  // Slug uniquely used inside QR codes
   @Prop({
     type: String,
     required: true,
@@ -27,14 +44,12 @@ export class Table extends Document {
   })
   qrSlug: string;
 
-  // The URL the QR actually points to
   @Prop({
     type: String,
     required: true,
   })
   qrContentUrl: string;
 
-  // URL where QR image is stored (PNG or SVG)
   @Prop({
     type: String,
     required: true,
@@ -54,8 +69,9 @@ export class Table extends Document {
   qrExpiresAt: Date | null;
 }
 
-export const TableSchema = SchemaFactory.createForClass(Table);
+export const PlaceSchema = SchemaFactory.createForClass(Place);
 
 // Indexes
-TableSchema.index({ restaurantId: 1, number: 1 }, { unique: true });
-TableSchema.index({ qrSlug: 1 }, { unique: true });
+PlaceSchema.index({ restaurantId: 1, number: 1, type: 1 }, { unique: true, sparse: true });
+PlaceSchema.index({ hotelId: 1, number: 1, type: 1 }, { unique: true, sparse: true });
+PlaceSchema.index({ qrSlug: 1 }, { unique: true });

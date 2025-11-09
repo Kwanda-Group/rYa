@@ -3,9 +3,14 @@ import { AppModule } from './app.module';
 import helmet from 'helmet';
 import * as rateLimit from "express-rate-limit"
 import { ValidationPipe } from '@nestjs/common';
+import * as express from 'express';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  //configure handling public files
+  app.use('/uploads', express.static(join(process.cwd(), 'uploads')));
   
   //ENABLE CORS AND HEADERS HANDLING
   app.enableCors()

@@ -1,13 +1,13 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose";
 import { Menu } from "./menu.schema";
-import { Restaurant } from "./Admin.schema";
+
 
 export type OrderDocument = Order & Document;
 
 @Schema({collection:"orders" , timestamps:true})
 export class Order {
-    @Prop({required:true , type:mongoose.Types.ObjectId , ref:Restaurant.name})
+    @Prop({required:true , type:mongoose.Types.ObjectId , ref:"Company"})
     restaurant : mongoose.Types.ObjectId
 
     @Prop({required:true})

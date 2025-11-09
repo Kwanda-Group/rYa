@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose"
 
-export type RestaurantDocument = Restaurant & Document
+export type CompanyDocument = Company & Document
 
-@Schema({collection :"restaurants",timestamps: true})
-export class Restaurant {
+@Schema({timestamps: true})
+export class Company {
     @Prop({required:true})
     name : string
     
@@ -31,5 +31,5 @@ export class Restaurant {
 
 }
 
-export const RestaurantSchema = SchemaFactory.createForClass(Restaurant)
-RestaurantSchema.index({email : 1})
+export const CompanySchema = SchemaFactory.createForClass(Company)
+CompanySchema.index({email : 1})
