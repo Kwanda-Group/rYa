@@ -6,6 +6,7 @@ import { PlaceType } from "./place.schema";
 export type OrderDocument = Order & Document;
 
 export enum OrderStatus {
+  PREBOOKED = 'PREBOOKED',
   PENDING = "pending",
   PREPARING = "preparing",
   SERVED = "served",
@@ -39,6 +40,10 @@ export class Order {
 
   @Prop({ required: true, enum: Object.values(OrderStatus), default: OrderStatus.PENDING })
   status: OrderStatus;
+
+  // new for prebooking
+  @Prop({ type: Date, required: false })        // customer requested pickup time
+  pickupTime?: Date;
 
   @Prop({ type: Number, default: 15 }) // estimated minutes to prepare
   etaMinutes: number;
