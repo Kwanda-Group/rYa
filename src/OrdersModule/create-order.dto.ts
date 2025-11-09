@@ -1,5 +1,5 @@
 import { IsMongoId, IsInt, Min, IsArray, ArrayNotEmpty, IsEnum, IsOptional } from "class-validator";
-import { PlaceType } from "src/schemas/place.schema";
+import { PlaceType } from "../schemas/place.schema";
 
 export class CreateOrderDto {
   @IsArray()

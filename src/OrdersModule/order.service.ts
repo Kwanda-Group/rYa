@@ -1,8 +1,8 @@
-import { Injectable, BadRequestException, NotFoundException, Logger } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException, Logger, Inject, forwardRef } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Order, OrderDocument, OrderStatus } from 'src/schemas/order.schema';
-import { Menu } from 'src/schemas/menu.schema';
+import { Order, OrderDocument, OrderStatus } from '../schemas/order.schema';
+import { Menu } from '../schemas/menu.schema';
 import { CreateOrderDto } from './create-order.dto';
 import { OrdersGateway } from './orders.gateway';
 
@@ -13,6 +13,7 @@ export class OrderService {
   constructor(
     @InjectModel(Order.name) private orderModel: Model<OrderDocument>,
     @InjectModel(Menu.name) private menuModel: Model<Menu>,
+    @Inject(forwardRef(() => OrdersGateway))
     private readonly ordersGateway: OrdersGateway
   ) {}
 
