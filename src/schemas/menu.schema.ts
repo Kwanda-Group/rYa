@@ -33,4 +33,4 @@ export class Menu {
 }
 
 export const MenuSchema = SchemaFactory.createForClass(Menu)
-MenuSchema.index({name : 1})
+

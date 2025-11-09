@@ -40,7 +40,6 @@ export class Place extends Document {
   @Prop({
     type: String,
     required: true,
-    unique: true,
   })
   qrSlug: string;
 

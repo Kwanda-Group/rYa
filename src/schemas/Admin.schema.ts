@@ -32,4 +32,4 @@ export class Company {
 }
 
 export const CompanySchema = SchemaFactory.createForClass(Company)
-CompanySchema.index({email : 1})
+
